@@ -6,15 +6,19 @@ on:
       PG_VERSION:
         description: 'Postgres version'
         required: true
-        default: '15.3'
+        default: '16.10'
+      PG_MAJOR:
+        description: 'Postgres major version'
+        required: true
+        default: '16'
       EXTENSIONS:
         description: 'Postgres extensions to install'
         required: true
-        default: 'cron timescaledb'
+        default: 'timescaledb'
       TIMESCALEDB_VERSION:
         description: 'TimescaleDB version'
         required: true
-        default: '2.11.0'
+        default: '2.14.2'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -49,5 +53,7 @@ jobs:
         tags: ghcr.io/${{ github.repository_owner }}/postgresql:${{ steps.vars.outputs.IMAGE_TAG }}
         build-args: |
           POSTGRESQL_VERSION=${{ github.event.inputs.PG_VERSION }}
+          PG_MAJOR=${{ github.event.inputs.PG_MAJOR }}
           EXTENSIONS=${{ github.event.inputs.EXTENSIONS }}
           TIMESCALEDB_VERSION=${{ github.event.inputs.TIMESCALEDB_VERSION }}
+          
